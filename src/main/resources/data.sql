@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS weights;
+
+CREATE TABLE weights (
+  id INT PRIMARY KEY,
+  data VARCHAR(250) NOT NULL,
+  created_date DATE NOT NULL
+);
