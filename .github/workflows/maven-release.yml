@@ -25,6 +25,8 @@ jobs:
           cache: 'maven'
           server-id: github
           settings-path: ~/.m2/settings.xml
+          server-username: GITHUB_USERNAME
+          server-password: GITHUB_TOKEN
 
       - name: Configure Git User
         run: |
@@ -57,7 +59,8 @@ jobs:
 #          ./mvnw --file pom.xml -e release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}  -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Darguments="-DskipTests"
 #          ./mvnw --file pom.xml -e release:perform -B -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Darguments="-DskipTests"
         env:
+          GITHUB_USERNAME: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-          SSH_DEPLOY_PRIVATE_KEY: ${{ secrets.SSH_DEPLOY_PRIVATE_KEY }}
+#          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+#          SSH_DEPLOY_PRIVATE_KEY: ${{ secrets.SSH_DEPLOY_PRIVATE_KEY }}
  #         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
