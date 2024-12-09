@@ -16,6 +16,10 @@
 
     <properties>
         <java.version>11</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>  <!-- --- required -->
+		<maven.compiler.target>${java.version}</maven.compiler.target>  <!-- --- required -->
+	</properties>
+
     </properties>
 
     <dependencies>
@@ -50,11 +54,12 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
+		<dependency>                              <!-- ------------------------- required -->
+			<groupId>org.projectlombok</groupId>  <!-- ------------------------- required -->
+			<artifactId>lombok</artifactId>       <!-- ------------------------- required -->
+			<version>1.18.24</version>            <!-- ------------------------- required -->
+			<scope>provided</scope>               <!-- ------------------------- required -->
+		</dependency> 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -68,29 +73,29 @@
         </dependency>
     </dependencies>
 
-<build>
-  <plugins>
-    <plugin>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-maven-plugin</artifactId>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <version>3.8.1</version> <!-- Match your version -->
-      <configuration>
-        <source>1.8</source> <!-- or the Java version you're using -->
-        <target>1.8</target> <!-- or the Java version you're targeting -->
-        <annotationProcessorPaths>
-          <path>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.36</version> <!-- Match your Lombok version -->
-          </path>
-        </annotationProcessorPaths>
-      </configuration>
-    </plugin>
-  </plugins>
-</build>
+	<build>
+		<plugins>
+			<plugin>                                              <!-- --------- required -->
+				<groupId>org.apache.maven.plugins</groupId>       <!-- --------- required -->
+				<artifactId>maven-compiler-plugin</artifactId>    <!-- --------- required -->
+				<version>3.7.0</version>                          <!-- --------- required -->
+				<configuration>                                   <!-- --------- required -->
+					<source>${maven.compiler.source}</source>     <!-- --------- required -->
+					<target>${maven.compiler.target}</target>     <!-- --------- required -->
+					<annotationProcessorPaths>                    <!-- --------- required -->
+						<path>                                    <!-- --------- required -->
+							<groupId>org.projectlombok</groupId>  <!-- --------- required -->
+							<artifactId>lombok</artifactId>       <!-- --------- required -->
+							<version>1.18.24</version>            <!-- --------- required -->
+						</path>                                   <!-- --------- required -->
+					</annotationProcessorPaths>                   <!-- --------- required -->
+				</configuration>                                  <!-- --------- required -->
+			</plugin>                                             <!-- --------- required -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
