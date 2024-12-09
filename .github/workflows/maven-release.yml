@@ -25,16 +25,20 @@ jobs:
           cache: 'maven'
           server-id: github
           settings-path: ~/.m2/settings.xml
+
       - name: Configure Git User
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-#      - name: SSH configuration
-#        run: |
-#          mkdir -p ~/.ssh
-#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-#          chmod 600 ~/.ssh/id_rsa
-#          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+
+      - name: Import GPG key
+        run: |
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
+          echo "${{ secrets.GPG_PASSPHRASE }}" | gpg --batch --yes --passphrase-fd 0 --edit-key <your-key-id> trust quit
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+
       - name: Build with Maven
         run: ./mvnw clean install -DskipTests
 
