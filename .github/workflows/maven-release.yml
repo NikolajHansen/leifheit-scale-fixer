@@ -6,36 +6,31 @@ on:
       releaseVersion:
         description: 'Release version'
         required: true
-        default: '1.0.0'
+        default: 'X.Y.Z'
       developmentVersion:
         description: 'Next development version'
         required: true
-        default: '1.1.0-SNAPSHOT'
+        default: 'X.Y.Z-SNAPSHOT'
 
 jobs:
-
   release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: '11'  # Adjust according to your project's requirements
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'maven'
+          server-id: github
       - name: Configure Git User
         run: |
-          git config --global user.email "nikolaj.hansen@hsys.dk"
+          git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-
-      - name: Release Maven project
+      - name: Maven Release
         run: |
-          ./mvnw --file pom.xml --batch-mode release:prepare -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Dusername=${{ github.actor }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
-          ./mvnw --file pom.xml --batch-mode release:perform -Dusername=${{ github.actor }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
+          ./mvnw --file pom.xml --batch-mode release:prepare -B
+          ./mvnw --file pom.xml --batch-mode release:perform -B
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
