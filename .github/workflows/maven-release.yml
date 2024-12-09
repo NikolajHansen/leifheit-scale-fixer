@@ -34,7 +34,7 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import --import-options import-show
-          echo "${{ secrets.GPG_PRIVATE_KEY }}:5:" | gpg --batch --yes --import-ownertrust
+          echo "F9472EB971E78100:6:" | gpg --batch --yes --import-ownertrust
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
