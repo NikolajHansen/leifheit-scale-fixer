@@ -33,8 +33,8 @@ jobs:
 
       - name: Import GPG key
         run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo -e "5\ny\n" | gpg --batch --yes --passphrase-fd 0 --edit-key F9472EB971E78100 trust quit
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import --import-options import-show
+          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --yes --import-ownertrust
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
