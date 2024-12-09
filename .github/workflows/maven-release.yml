@@ -21,10 +21,14 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11'  # Adjust according to your project's requirements
-      - name: Release Maven project
+      - name: Configure Git User
         run: |
           git config --global user.email "[email protected]"
-          git config --global user.name "GitHub Action"
-          ./mvnw deploy --file pom.xml --batch-mode release:prepare release:perform -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Dusername=${{ secrets.GITHUB_USERNAME }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
+          git config --global user.name "GitHub Actions"
+
+      - name: Release Maven project
+        run: |
+          ./mvnw --file pom.xml --batch-mode release:prepare -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Dusername=${{ github.actor }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
+          ./mvnw --file pom.xml --batch-mode release:perform -Dusername=${{ github.actor }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
