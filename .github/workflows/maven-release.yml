@@ -24,19 +24,24 @@ jobs:
           java-version: '11'
           cache: 'maven'
           server-id: github
+          settings-path: ~/.m2/settings.xml
       - name: Configure Git User
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
-      - name: SSH configuration
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+#      - name: SSH configuration
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#          chmod 600 ~/.ssh/id_rsa
+#          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
+      - name: Build with Maven
+        run: ./mvnw clean install -DskipTests
+
       - name: Maven Release
         run: |
-          mvn --file pom.xml -e release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Darguments="-DskipTests"
-          mvn --file pom.xml -e release:perform -B -Darguments="-DskipTests"
+          ./mvnw --file pom.xml -e release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }}  -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Darguments="-DskipTests"
+          ./mvnw --file pom.xml -e release:perform -B -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Darguments="-DskipTests"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
