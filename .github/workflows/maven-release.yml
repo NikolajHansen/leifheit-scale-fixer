@@ -42,12 +42,12 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
-          ssh-private-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          ssh-private-key: ${{ secrets.SSH_DEPLOY_PRIVATE_KEY }}
 
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ssh-key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          ssh-key: ${{ secrets.SSH_DEPLOY_KEY }}
 
       - name: Build with Maven
         run: ./mvnw clean install -DskipTests
@@ -61,4 +61,5 @@ jobs:
 #          ./mvnw --file pom.xml -e release:perform -B -Dgpg.passphrase="${{ secrets.GPG_PASSPHRASE }}" -Darguments="-DskipTests"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
  #         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
