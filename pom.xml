@@ -98,7 +98,7 @@
     </distributionManagement>
 
     <scm>
-        <developerConnection>scm:git@github.com:NikolajHansen/leifheit-scale-fixer.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:NikolajHansen/leifheit-scale-fixer.git</developerConnection>
         <url>https://github.com/NikolajHansen/leifheit-scale-fixer</url>
     </scm>
 </project>
