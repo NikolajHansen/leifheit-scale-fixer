@@ -102,5 +102,6 @@
         <connection>scm:git:git@github.com:NikolajHansen/leifheit-scale-fixer.git</connection>
         <developerConnection>scm:git:git@github.com:NikolajHansen/leifheit-scale-fixer.git</developerConnection>
         <url>https://github.com/NikolajHansen/leifheit-scale-fixer</url>
+        <tag>master</tag>
     </scm>
 </project>
