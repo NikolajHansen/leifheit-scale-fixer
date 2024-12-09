@@ -32,7 +32,7 @@ jobs:
         run: cat $HOME/.m2/settings.xml
       - name: Maven Release
         run: |
-          ./mvnw --file pom.xml -e --batch-mode release:prepare -B
-          ./mvnw --file pom.xml -e --batch-mode release:perform -B
+          ./mvnw --file pom.xml -e release:prepare -B -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Darguments="-DskipTests"
+          ./mvnw --file pom.xml -e release:perform -B -Darguments="-DskipTests"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
