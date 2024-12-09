@@ -34,7 +34,7 @@ jobs:
       - name: Import GPG key
         run: |
           echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          echo "5" | gpg --batch --yes --passphrase-fd 0 --edit-key F9472EB971E78100 trust quit
+          echo -e "5\ny\n" | gpg --batch --yes --passphrase-fd 0 --edit-key F9472EB971E78100 trust quit
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
