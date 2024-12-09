@@ -1,0 +1,30 @@
+name: Maven Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      releaseVersion:
+        description: 'Release version'
+        required: true
+        default: '1.0.0'
+      developmentVersion:
+        description: 'Next development version'
+        required: true
+        default: '1.1.0-SNAPSHOT'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'  # Adjust according to your project's requirements
+      - name: Release Maven project
+        run: |
+          git config --global user.email "[email protected]"
+          git config --global user.name "GitHub Action"
+          mvn --batch-mode release:prepare release:perform -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Dusername=${{ secrets.GITHUB_USERNAME }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
