@@ -13,6 +13,7 @@ on:
         default: '1.1.0-SNAPSHOT'
 
 jobs:
+
   release:
     runs-on: ubuntu-latest
     steps:
@@ -21,9 +22,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11'  # Adjust according to your project's requirements
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts
       - name: Configure Git User
         run: |
-          git config --global user.email "[email protected]"
+          git config --global user.email "nikolaj.hansen@hsys.dk"
           git config --global user.name "GitHub Actions"
 
       - name: Release Maven project
