@@ -25,6 +25,6 @@ jobs:
         run: |
           git config --global user.email "[email protected]"
           git config --global user.name "GitHub Action"
-          mvn --batch-mode release:prepare release:perform -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Dusername=${{ secrets.GITHUB_USERNAME }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
+          ./mvnw deploy --file pom.xml --batch-mode release:prepare release:perform -DreleaseVersion=${{ github.event.inputs.releaseVersion }} -DdevelopmentVersion=${{ github.event.inputs.developmentVersion }} -Dusername=${{ secrets.GITHUB_USERNAME }} -Dpassword=${{ secrets.GITHUB_TOKEN }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
