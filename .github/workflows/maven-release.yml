@@ -28,9 +28,11 @@ jobs:
         run: |
           git config --global user.email "actions@github.com"
           git config --global user.name "GitHub Actions"
+      - name: View settings.xml
+        run: cat $HOME/.m2/settings.xml
       - name: Maven Release
         run: |
-          ./mvnw --file pom.xml --batch-mode release:prepare -B
-          ./mvnw --file pom.xml --batch-mode release:perform -B
+          ./mvnw --file pom.xml -e --batch-mode release:prepare -B
+          ./mvnw --file pom.xml -e --batch-mode release:perform -B
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
