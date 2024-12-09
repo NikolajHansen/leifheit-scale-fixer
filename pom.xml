@@ -9,7 +9,7 @@
     </parent>
     <groupId>dk.barnabas.leifheit</groupId>
     <artifactId>scalefixer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>scalefixer</name>
     <description>Leifheit scale backend</description>
 
@@ -101,5 +101,6 @@
         <connection>scm:git:git@github.com:NikolajHansen/leifheit-scale-fixer.git</connection>
         <developerConnection>scm:git:git@github.com:NikolajHansen/leifheit-scale-fixer.git</developerConnection>
         <url>https://github.com/NikolajHansen/leifheit-scale-fixer</url>
-    </scm>
+      <tag>0.0.1</tag>
+  </scm>
 </project>
